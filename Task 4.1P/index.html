@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/main.css" />
+
+    <title>iService</title>
+  </head>
+  <body>
+    <form action="/register" method="POST">
+      <h1>Create an iService Account</h1>
+
+      <label>Country of residence</label>
+      <select name="country_of_residence" class="w-1/2">
+        <option value="AUS">Australia</option>
+        <option value="CAN">Canada</option>
+        <option value="CHI">China</option>
+        <option value="US">United Stated</option>
+      </select>
+
+      <div class="flex w-1/2">
+        <div class="w-1/2 mr-4">
+          <label>First name</label>
+          <input type="text" name="first_name" class="w-full" />
+        </div>
+        <div class="w-1/2 ml-4">
+          <label>Last name</label>
+          <input type="text" name="last_name" class="w-full" />
+        </div>
+      </div>
+
+      <label>Email</label>
+      <input type="email" name="email" class="w-1/2" />
+
+      <label>Address</label>
+      <input
+        type="text"
+        name="address_line_1"
+        placeholder="Address Line 1"
+        class="w-1/2"
+      />
+      <input
+        type="text"
+        name="address_line_2"
+        placeholder="Address Line 2"
+        class="w-1/2"
+      />
+
+      <label>City</label>
+      <input type="text" name="city" class="w-1/2" />
+
+      <label>State, Province or Region</label>
+      <input type="text" name="state" class="w-1/2" />
+
+      <label>ZIP / Postal code</label>
+      <input type="text" name="zip" class="w-1/2" />
+
+      <label>Mobile phone number</label>
+      <input type="text" name="phone_number" class="w-1/2" />
+
+      <label>Password</label>
+      <input type="password" name="password" id="password" class="w-1/2" />
+
+      <label>Confirm password</label>
+      <input type="password" id="confirm-password" class="w-1/2" />
+
+      <button type="submit">Create Account</button>
+    </form>
+  </body>
+</html>
+
+<script>
+  var password = document.getElementById("password");
+  var confirmPassword = document.getElementById("confirm-password");
+
+  function passwordVal() {
+    if (password.value != confirmPassword.value) {
+      confirmPassword.setCustomValidity("Passwords do not match :(");
+    } else {
+      confirmPassword.setCustomValidity("");
+    }
+    if (password.value.length < 8) {
+      password.setCustomValidity("Password must be at least 8 characters");
+    } else {
+      password.setCustomValidity("");
+    }
+  }
+
+  password.onchange = passwordVal;
+  confirmPassword.onkeyup = passwordVal;
+</script>
