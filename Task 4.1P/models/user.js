@@ -22,7 +22,7 @@ var UserSchema = new db.Schema(
             type: String,
             required: true
         },
-        password:
+        hpassword:
         {
             type: String,
             required: true,
