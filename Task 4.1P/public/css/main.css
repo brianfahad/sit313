@@ -1,45 +1,75 @@
-* {
-  font-family: sans-serif;
+:root {
+  --primary: #004f7c;
 }
-label,
+
+h1 {
+  color: var(--primary);
+  font-family: "Raleway", sans-serif;
+}
+p {
+  color: var(--primary);
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+}
+a {
+  color: var(--primary);
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+}
 input,
 select {
   display: block;
-}
-input,
-select {
-  height: 30px;
-  border: 1px solid grey;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
+  margin-top: 8px;
+  height: 36px;
+  width: 100%;
+  box-sizing: border-box;
   padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+}
+input:focus-visible {
+  outline: none;
+  border: 2px solid var(--primary);
 }
 label {
-  margin-bottom: 5px;
-}
-form {
-  margin-left: 10%;
-  width: 70%;
-}
-h1 {
+  color: var(--primary);
+  font-family: "Raleway", sans-serif;
   font-weight: bold;
-  color: green;
 }
 button {
-  padding-left: 20px;
-  padding-right: 20px;
+  background-color: var(--primary);
   color: white;
-  background-color: green;
+  font-family: "Raleway", sans-serif;
+  width: 100%;
+  height: 36px;
+  font-size: 16px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  padding-top: 10px;
-  padding-bottom: 10px;
+}
+button:hover {
+  background-color: #00639d;
+}
+div.card {
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
 }
 
 .flex {
   display: flex;
-}
-.w-full {
-  width: 100%;
 }
 .w-1\/2 {
   width: 50%;

@@ -6,69 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
     <title>iService</title>
   </head>
   <body>
-    <form action="/register" method="POST">
-      <h1>Create an iService Account</h1>
+    <div class="card">
+      <form action="/register" method="POST">
+        <h1>Create account</h1>
 
-      <label>Country of residence</label>
-      <select name="country_of_residence" class="w-1/2">
-        <option value="AUS">Australia</option>
-        <option value="CAN">Canada</option>
-        <option value="CHI">China</option>
-        <option value="US">United Stated</option>
-      </select>
+        <label>Country of residence</label>
+        <select name="country_of_residence">
+          <option value="AUS">Australia</option>
+          <option value="CAN">Canada</option>
+          <option value="CHI">China</option>
+          <option value="US">United Stated</option>
+        </select>
 
-      <div class="flex w-1/2">
-        <div class="w-1/2 mr-4">
-          <label>First name</label>
-          <input type="text" name="first_name" class="w-full" />
+        <div class="flex">
+          <div class="w-1/2 mr-4">
+            <label>First name</label>
+            <input type="text" name="first_name" class="w-full" />
+          </div>
+          <div class="w-1/2 ml-4">
+            <label>Last name</label>
+            <input type="text" name="last_name" class="w-full" />
+          </div>
         </div>
-        <div class="w-1/2 ml-4">
-          <label>Last name</label>
-          <input type="text" name="last_name" class="w-full" />
+
+        <label>Email</label>
+        <input type="email" name="email" />
+
+        <label>Address</label>
+        <input type="text" name="address_line_1" placeholder="Address Line 1" />
+        <input type="text" name="address_line_2" placeholder="Address Line 2" />
+
+        <label>City</label>
+        <input type="text" name="city" />
+        <div class="flex">
+          <div class="w-1/2 mr-4">
+            <label>State</label>
+            <input type="text" name="state" />
+          </div>
+          <div class="w-1/2 ml-4">
+            <label>Postcode</label>
+            <input type="text" name="zip" />
+          </div>
         </div>
-      </div>
 
-      <label>Email</label>
-      <input type="email" name="email" class="w-1/2" />
+        <label>Mobile phone number</label>
+        <input type="text" name="phone_number" />
 
-      <label>Address</label>
-      <input
-        type="text"
-        name="address_line_1"
-        placeholder="Address Line 1"
-        class="w-1/2"
-      />
-      <input
-        type="text"
-        name="address_line_2"
-        placeholder="Address Line 2"
-        class="w-1/2"
-      />
+        <label>Password</label>
+        <input type="password" name="password" id="password" />
 
-      <label>City</label>
-      <input type="text" name="city" class="w-1/2" />
+        <label>Confirm password</label>
+        <input type="password" id="confirm-password" />
 
-      <label>State, Province or Region</label>
-      <input type="text" name="state" class="w-1/2" />
-
-      <label>ZIP / Postal code</label>
-      <input type="text" name="zip" class="w-1/2" />
-
-      <label>Mobile phone number</label>
-      <input type="text" name="phone_number" class="w-1/2" />
-
-      <label>Password</label>
-      <input type="password" name="password" id="password" class="w-1/2" />
-
-      <label>Confirm password</label>
-      <input type="password" id="confirm-password" class="w-1/2" />
-
-      <button type="submit">Create Account</button>
-    </form>
+        <button type="submit">Create Account</button>
+        <p>Already have an account? <a href="/login">Login here.</a></p>
+      </form>
+    </div>
   </body>
 </html>
 
