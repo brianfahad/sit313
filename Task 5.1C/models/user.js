@@ -20,7 +20,8 @@ var UserSchema = new db.Schema(
         email:
         {
             type: String,
-            required: true
+            required: true,
+            match: /.+\@.+\..+/,
         },
         hpassword:
         {
@@ -54,7 +55,11 @@ var UserSchema = new db.Schema(
         {
             type: String,
             required: false,
-        }
+        },
+        created_at: {
+            type: Date,
+            default: Date.now
+        },
     });
 
 db.model('User', UserSchema);
