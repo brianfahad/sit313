@@ -65,7 +65,12 @@
       <input type="password" name="password" id="password" class="w-1/2" />
 
       <label>Confirm password</label>
-      <input type="password" id="confirm-password" class="w-1/2" />
+      <input
+        type="password"
+        name="confirm_password"
+        id="confirm_password"
+        class="w-1/2"
+      />
 
       <button type="submit">Create Account</button>
     </form>
@@ -74,7 +79,7 @@
 
 <script>
   var password = document.getElementById("password");
-  var confirmPassword = document.getElementById("confirm-password");
+  var confirmPassword = document.getElementById("confirm_password");
 
   function passwordVal() {
     if (password.value != confirmPassword.value) {
