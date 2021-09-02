@@ -6,6 +6,7 @@ const sendGridMail = require("@sendgrid/mail");
 const bcrypt = require('bcrypt');
 const cookie_parser = require('cookie-parser')
 const fs = require('fs');
+const { body, validationResult } = require('express-validator');
 
 // Initiate app
 const app = express();
@@ -47,44 +48,70 @@ app.get('*', function (req, res) {
 /*
 *   POST request to register user
 */
-app.post('/register', async (req, res) => {
-
-    const { country_of_residence, first_name, last_name, email, password, address_line_1, address_line_2, city, state, zip } = req.body;
-
-    try {
-        mongoConnect()
-
-        const hpassword = bcrypt.hashSync(password, 10);
-        const newUser = new User({
-            country_of_residence,
-            first_name,
-            last_name,
-            email,
-            hpassword,
-            address: {
-                address_line_1,
-                address_line_2,
-                city,
-                state,
-                zip
-            }
-        })
-
-        await newUser.save();
-        console.log("-- User created successfully --");
-
-        res.redirect('/login');
-
-        sendEmail(email)
-
-    } catch (err) {
-        if (err.code === 11000) {
-            res.send("Email already exist")
-            return;
+app.post('/register',
+    body('country_of_residence').isLength({ min: 1 }).withMessage('Country of residence is required.'),
+    body('first_name').isLength({ min: 1 }).withMessage('First name is required.'),
+    body('last_name').isLength({ min: 1 }).withMessage('Last name is required.'),
+    body('email').isLength({ min: 1 }).withMessage('Email is required.').isEmail().withMessage('Email is invalid'),
+    body('address_line_1').isLength({ min: 1 }).withMessage('Address is required.'),
+    body('city').isLength({ min: 1 }).withMessage('City is required.'),
+    body('state').isLength({ min: 1 }).withMessage('State is required.'),
+    body('password').isLength({ min: 8 }).withMessage('Password must be 8 characters or more.').custom((match, { req }) => {
+        if (match !== req.body.confirm_password) {
+            throw new Error("Passwords do not match");
+        } else {
+            return value;
         }
-        res.send(err)
-    }
-})
+    }), async (req, res) => {
+
+        /*
+                * Error validation
+                */
+        const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+            return `${msg}`;
+        };
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.mapped() });
+        }
+
+        const { country_of_residence, first_name, last_name, email, password, address_line_1, address_line_2, city, state, zip, phone_number } = req.body;
+
+        try {
+            mongoConnect()
+
+            const hpassword = bcrypt.hashSync(password, 10);
+            const newUser = new User({
+                country_of_residence,
+                first_name,
+                last_name,
+                email,
+                hpassword,
+                address: {
+                    address_line_1,
+                    address_line_2,
+                    city,
+                    state,
+                    zip
+                },
+                phone_number
+            })
+
+            await newUser.save();
+            console.log("-- User created successfully --");
+
+            res.redirect('/login');
+
+            sendEmail(email)
+
+        } catch (err) {
+            if (err.code === 11000) {
+                res.send("Email already exist")
+                return;
+            }
+            res.send(err)
+        }
+    })
 
 /*
 *   POST request for user authentication
