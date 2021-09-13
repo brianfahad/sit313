@@ -224,49 +224,49 @@ app.route('/experts')
 *   POST request to remove expert
 */
 app.route('/experts/:id')
-    // .put(
-    //     body('country_of_residence').isLength({ min: 1 }).withMessage('Country of residence is required.'),
-    //     body('first_name').isLength({ min: 1 }).withMessage('First name is required.'),
-    //     body('last_name').isLength({ min: 1 }).withMessage('Last name is required.'),
-    //     body('email').isLength({ min: 1 }).withMessage('Email is required.').isEmail().withMessage('Email is invalid'),
-    //     body('address_line_1').isLength({ min: 1 }).withMessage('Address is required.'),
-    //     body('city').isLength({ min: 1 }).withMessage('City is required.'),
-    //     body('state').isLength({ min: 1 }).withMessage('State is required.'),
-    //     body('password').isLength({ min: 8 }).withMessage('Password must be 8 characters or more.').custom((value, { req }) => {
-    //         if (value !== req.body.confirm_password) {
-    //             throw new Error("Passwords do not match");
-    //         }
-    //         return true;
-    //     }), async (req, res) => {
+    .put(
+        body('country_of_residence').isLength({ min: 1 }).withMessage('Country of residence is required.'),
+        body('first_name').isLength({ min: 1 }).withMessage('First name is required.'),
+        body('last_name').isLength({ min: 1 }).withMessage('Last name is required.'),
+        body('email').isLength({ min: 1 }).withMessage('Email is required.').isEmail().withMessage('Email is invalid'),
+        body('address_line_1').isLength({ min: 1 }).withMessage('Address is required.'),
+        body('city').isLength({ min: 1 }).withMessage('City is required.'),
+        body('state').isLength({ min: 1 }).withMessage('State is required.'),
+        body('password').isLength({ min: 8 }).withMessage('Password must be 8 characters or more.').custom((value, { req }) => {
+            if (value !== req.body.confirm_password) {
+                throw new Error("Passwords do not match");
+            }
+            return true;
+        }), async (req, res) => {
 
-    //         /*
-    //         * Error validation
-    //         */
-    //         const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
-    //             return `${msg}`;
-    //         };
-    //         const errors = validationResult(req).formatWith(errorFormatter);
-    //         if (!errors.isEmpty()) {
-    //             return res.status(400).json({ errors: errors.mapped() });
-    //         }
+            /*
+            * Error validation
+            */
+            const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+                return `${msg}`;
+            };
+            const errors = validationResult(req).formatWith(errorFormatter);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.mapped() });
+            }
 
-    //         try {
-    //             mongoConnect()
+            try {
+                mongoConnect()
 
-    //             await Expert.findOneAndUpdate({
-    //                 _id: req.params.id
-    //             }, req.body)
-    //             res.send('User updated')
+                await Expert.findOneAndUpdate({
+                    _id: req.params.id
+                }, req.body)
+                res.send('User updated')
 
 
-    //         } catch (err) {
-    //             if (err.code === 11000) {
-    //                 res.send("Email already exist")
-    //                 return;
-    //             }
-    //             res.send(err)
-    //         }
-    //     })
+            } catch (err) {
+                if (err.code === 11000) {
+                    res.send("Email already exist")
+                    return;
+                }
+                res.send(err)
+            }
+        })
     .get(async (req, res) => {
 
         mongoConnect();
@@ -293,36 +293,7 @@ app.route('/experts/:id')
             res.send(error)
         }
     })
-    // .put(async (req, res) => {
-
-    //     try {
-    //         mongoConnect()
-
-
-    //         await Expert.findOneAndUpdate({
-    //             _id: req.params.id
-    //         }, {
-    //             phone_number: req.body.phone_number,
-    //             address_line_1: req.body.address_line_1,
-    //             address_line_2: req.body.address_line_2,
-    //             city: req.body.city,
-    //             state: req.body.state,
-    //             zip: req.body.zip
-    //         })
-
-
-    //         res.send('User updated')
-
-
-    //     } catch (err) {
-    //         if (err.code === 11000) {
-    //             res.send("Email already exist")
-    //             return;
-    //         }
-    //         res.send(err)
-    //     }
-    // })
-    .put(
+    .patch(
         body('password').isLength({ min: 8 }).withMessage('Password must be 8 characters or more.').custom((value, { req }) => {
             if (value !== req.body.confirm_password) {
                 throw new Error("Passwords do not match");
@@ -330,20 +301,25 @@ app.route('/experts/:id')
             return true;
         }), async (req, res) => {
 
-
             try {
-                mongoConnect();
+                mongoConnect()
 
                 const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
                 await Expert.findOneAndUpdate({
                     _id: req.params.id
                 }, {
-                    hpassword: hashedPassword
+                    hpassword: hashedPassword,
+                    phone_number: req.body.phone_number,
+                    address_line_1: req.body.address_line_1,
+                    address_line_2: req.body.address_line_2,
+                    city: req.body.city,
+                    state: req.body.state,
+                    zip: req.body.zip
                 })
 
 
-                res.send('Password updated')
+                res.send('User updated')
 
 
             } catch (err) {
