@@ -15,7 +15,7 @@ fi
   cd $PROJECT_ROOT
 
   if [ "$BUILD_ENV" = "api" ]; then
-    cd Task\ 5.1C
+    cd Task_5.1C
     npm install
     cd ..
   elif [ "$BUILD_ENV" = "iservice-react" ]; then
