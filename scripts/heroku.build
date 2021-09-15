@@ -10,11 +10,19 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
 fi
 
 (
-    PROJECT_ROOT="$(cd $(dirname $0)/..; pwd)"
+  PROJECT_ROOT="$(cd $(dirname $0)/..; pwd)"
+  
+  cd $PROJECT_ROOT
 
-    cd $PROJECT_ROOT
-
+  if [ "$BUILD_ENV" = "api" ]; then
     cd Task\ 5.1C
     npm install
     cd ..
+  elif [ "$BUILD_ENV" = "iservice-react" ]; then
+    cd iservice-react
+    npm install
+    cd ..
+  else
+    exit 1
+  fi
 )
