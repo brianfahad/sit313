@@ -18,8 +18,9 @@ fi
     cd Task_5.1C
     npm install
     cd ..
-  elif [ "$BUILD_ENV" = "iservice-react" ]; then
+  elif [ "$BUILD_ENV" = "frontend" ]; then
     cd iservice-react
+    cp static.json ..
     npm install
     cd ..
   else
