@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const cookie_parser = require('cookie-parser')
 const fs = require('fs');
 const { body, validationResult } = require('express-validator');
+const cors = require('cors');
 
 // Initiate app
 const app = express();
@@ -22,13 +23,16 @@ sendGridMail.setApiKey(SG_API_KEY);
 
 // Models
 const User = require('./models/user');
+const Task = require('./models/task');
 
 // Middleware
 app.use(express.static(__dirname + '/public'));
-app.use(express.urlencoded({
-    extended: true
-}));
+// app.use(express.urlencoded({
+//     extended: true
+// }));
+app.use(express.json());
 app.use(cookie_parser(COOKIE_KEY))
+app.use(cors())
 
 // Routing
 app.get('/register', (req, res) => {
@@ -121,9 +125,10 @@ app.post('/auth', async (req, res) => {
     let user;
     const { email, password } = req.body;
 
-    mongoConnect()
 
     try {
+        mongoConnect()
+
         user = await User.findOne({
             email: email
         }).orFail();
@@ -136,6 +141,36 @@ app.post('/auth', async (req, res) => {
 
     res.cookie('iService', user._id, { signed: true })
     res.redirect('/custlogin')
+})
+
+/*
+*   POST request to save task
+*/
+app.post('/add-task', async (req, res) => {
+
+    const { task_type, title, description, suburb, date, budget, budget_value } = req.body;
+
+
+    try {
+        mongoConnect()
+
+        const newTask = new Task({
+            task_type,
+            title,
+            description,
+            suburb,
+            date,
+            budget,
+            budget_value
+        })
+
+        await newTask.save();
+
+        console.log("-- Task saved successfully --");
+
+    } catch (err) {
+        res.send(err)
+    }
 })
 
 /*
